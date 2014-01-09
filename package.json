@@ -1,0 +1,14 @@
+{
+    "name" : "h0110w",
+    "version" : "0.1.0",
+    "author" : "Martin Wecke",
+    "private" : true,
+
+    "devDependencies" : {
+        "grunt" :                   "~0.4.0",
+        "grunt-contrib-watch" : 	"*",
+        "grunt-contrib-less" : 		"*",
+        "grunt-contrib-uglify" :    "*",
+        "matchdep" :				"*"
+    } 
+}
