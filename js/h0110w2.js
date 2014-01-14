@@ -22,14 +22,14 @@ var h0ll0w = ( function() {
 
   var encode = function( html ) {
 
-    var base64 = $.base64.encode( html );
+    var base64 = LZString.compressToBase64( html );
     return base64;
   
   }
 
   var decode = function( base64 ) {
 
-    var html = $.base64.decode( base64 );
+    var html = LZString.decompressFromBase64( base64 );
     return html;
   
   }
@@ -59,7 +59,6 @@ var h0ll0w = ( function() {
         content.update( html );
 
         nav.update( baseURL + '#/' + query );
-
 
       }
 
@@ -92,7 +91,7 @@ var h0ll0w = ( function() {
       el_content = $( '.content' );
       bindEventHandlers();
     
-      el_content.focus();
+      selection.focusEnd();
 
     }
 
@@ -223,7 +222,7 @@ var h0ll0w = ( function() {
 
         /* link remove style */
 
-        links.push( $( '<a href="#" class="remove" title="Remove format">Remove format</a>' ).on( 'click', function( e ) {
+        links.push( $( '<a href="#" class="remove" title="Remove format">&times;</a>' ).on( 'click', function( e ) {
 
           e.preventDefault();
           selection.removeFormat( el );
@@ -234,7 +233,7 @@ var h0ll0w = ( function() {
 
         /* link strong style */
 
-        links.push( $( '<a href="#" class="strong" title="strong">Strong</a>' ).on( 'click', function( e ) {
+        links.push( $( '<a href="#" class="strong" title="strong">A</a>' ).on( 'click', function( e ) {
 
           e.preventDefault();
           selection.addFormat( range, 'strong' );
@@ -243,7 +242,7 @@ var h0ll0w = ( function() {
 
         /* link em style */
         
-        links.push( $( '<a href="#" class="emphasize" title="emphasize">Emphasize</a>' ).on( 'click', function( e ) {
+        links.push( $( '<a href="#" class="emphasize" title="emphasize">A</a>' ).on( 'click', function( e ) {
 
           e.preventDefault();
           selection.addFormat( range, 'em' );
@@ -358,11 +357,21 @@ var h0ll0w = ( function() {
       $( '.content' ).trigger( 'keyup' );
     }
 
+    var focusEnd = function() {
+
+      debuglog( 'focusEnd()' );
+
+
+
+
+    }
+
     return {
       buildTemp: function( range ) { return buildTemp( range ); },
       destroyTemp: function() { destroyTemp(); },
       addFormat: function( range, tag ) { addFormat( range, tag ); },
-      removeFormat: function( el ) { removeFormat( el ) }
+      removeFormat: function( el ) { removeFormat( el ) },
+      focusEnd: function() { focusEnd(); }
     }
 
 
