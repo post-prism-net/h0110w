@@ -1,15 +1,16 @@
 $( document ).ready( function() {
   
-  h0ll0w.init();
+  h0110w.init();
 
 } ); /* } document.ready */
 
 
-var h0ll0w = ( function() {
+var h0110w = ( function() {
 
   var debug = true;
 
   var init = function() {
+    debuglog( 'h0110w.init()');
 
     tools.init();
     nav.init(); 
@@ -41,7 +42,6 @@ var h0ll0w = ( function() {
 
 
     var init = function() {
-
       debuglog( 'url.init()' );
 
       var query = decodeURIComponent( location.href.replace( baseURL, '' ) );
@@ -65,7 +65,6 @@ var h0ll0w = ( function() {
     }
 
     var update = function( query ) {
-
       debuglog( 'url.update( ' + query + ' )' );
 
       history.replaceState( 0, document.title, baseURL + '#/' + query );
@@ -84,22 +83,22 @@ var h0ll0w = ( function() {
   // module content 
   var content = ( function() {
 
-    var el_content = null;
+    var el_content;
 
     var init = function() {
 
       el_content = $( '.content' );
       bindEventHandlers();
     
-      selection.focusEnd();
-
     }
 
     var bindEventHandlers = function() {
 
       is_typing = false;
 
-      el_content.on( 'blur keyup paste', function() {
+      el_content.on( 'blur keyup', function() {
+
+        debuglog( 'on.keyup' );
 
         // throttle keyup event
         if( !is_typing ) {
@@ -114,47 +113,27 @@ var h0ll0w = ( function() {
         }
 
       } );
-      
-      /* on select / jump */
-
-      dblclickTimer = 0;
-      dblclick = false;
 
       el_content.on( 'mouseup', function() {
+        debuglog( 'on.mouseup()' );
 
-        if( !dblclick ) {
+        if( getSelection() != '' ) {
 
-          window.setTimeout( function() {
+          debuglog( 'on.select()' );
 
-            var range = rangy.getSelection().getRangeAt( 0 );
+          // show tools
+          tools.show();
 
-            selection.destroyTemp();
 
-            if( range.toString() != '' ) {
-              
-              debuglog( 'range: ' + range );
+        } else {
 
-              var el = selection.buildTemp( range );
-
-              debuglog( 'el: ' + el );
-
-              tools.build( el, range );
-            
-            } else {
-              tools.hide();
-            }
-
-          }, 250 );
+          // hide tools
+          tools.hide();
 
         }
 
-        dblclick = true;
-        dblclickTimer = setTimeout( function() {
-          dblclick = false;
-        }, 250 );
-
       } );
-
+      
       $( document ).on( 'mouseenter', '.content em, .content strong', function() {
         tools.build( $( this ) );
       } );
@@ -176,21 +155,58 @@ var h0ll0w = ( function() {
 
     }
 
-    var update = function( html ) {
+    var getSelection = function() {
 
+      var text = '';
+        if( window.getSelection ) {
+          text = window.getSelection();
+        } else if( document.getSelection ) {
+          text = document.getSelection();
+        } else if( document.selection ) {
+          text = document.selection.createRange().text;
+        }
+
+        return text;
+
+    }
+
+    var format = function( format ) {
+      debuglog( 'content.format( ' + format + ' )' );
+
+      document.execCommand( format );
+    }
+
+    var update = function( html ) {
       debuglog( 'content.update( ' + html + ')' );
 
       el_content.html( html );
-
     }
 
     return {
       init: function() { init(); },
+      getSelection: function() { getSelection(); },
+      format: function( f ) { format( f ) },
       update: function( html ) { update( html ); }
     }
 
   } )();
 
+
+  // module clipboard
+  var clipboard = ( function() { 
+
+    var paste = function( el, e ) {
+
+      document.execCommand( 'insertText', false, e.clipboardData.getData( 'text/plain' ) );
+      e.preventDefault();
+
+    }
+
+    return {
+      paste: function( el, e ) { paste( el, e ) }
+    }
+
+  } )()
 
   // module tools
   var tools = ( function() {
@@ -198,89 +214,66 @@ var h0ll0w = ( function() {
     var el_tools;
 
     var init = function() {
+
+      build();
+      bindEventHandlers();
       el_tools = $( '.tools' );
+    
+    }
+
+    var bindEventHandlers = function() {
+
+      $( document ).on( 'click', '.tools a', function( e ) {
+
+        e.preventDefault();
+        var format = $( this ).attr( 'data-format' );
+        content.format( format );
+
+      } );
+
     }
 
     var build = function( el, range ) {
 
       debuglog( 'tools.build( el: ' + el + ', range: ' + range + ')' );
 
-      hide();
-
-      var el_tools = $( '<div class="tools" contenteditable="false"></div>' );
-
-      if( el ) {
-
-      var offset = el.offset();
-      var type = ( el.get(0).tagName == 'TEMP' ) ? 'add' : 'remove';
-        
-      }
-      
+      var el_tools = $( '<div class="tools" contenteditable="false"></div>' );      
       var links = new Array();
 
-      if( type == 'remove' ) {
 
-        /* link remove style */
+      /* link strong style */
+      links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="strong">A</a>' ) );
 
-        links.push( $( '<a href="#" class="remove" title="Remove format">&times;</a>' ).on( 'click', function( e ) {
+      /* link em style */
+      links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="emphasize">A</a>' ) );
+      
+      /* link remove style */
+      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove Format">&times</a>' ) );
 
-          e.preventDefault();
-          selection.removeFormat( el );
-
-        }) );
-
-      } else {
-
-        /* link strong style */
-
-        links.push( $( '<a href="#" class="strong" title="strong">A</a>' ).on( 'click', function( e ) {
-
-          e.preventDefault();
-          selection.addFormat( range, 'strong' );
-        
-        }) );
-
-        /* link em style */
-        
-        links.push( $( '<a href="#" class="emphasize" title="emphasize">A</a>' ).on( 'click', function( e ) {
-
-          e.preventDefault();
-          selection.addFormat( range, 'em' );
-
-        }) );
-
-      }
 
       $.each( links, function() {
-
         el_tools.append( $( this ) );
-
       });
 
-      el_tools.prependTo( el );
-
-      show();
+      el_tools.prependTo( $( 'body' ) );
 
     }
 
     var show = function() {
+      debuglog( 'tools.show()' );
 
       setTimeout( function() {
 
-        el_tools.toggleClass( 'active' );
+        el_tools.addClass( 'active' );
 
       }, 1 );
 
     }
 
     var hide = function() {
-
-      init();
+      debuglog( 'tools.hide()' );
 
       el_tools.removeClass( 'active' );
-
-      destroy();
-
     }
 
     var destroy = function() {
@@ -300,80 +293,6 @@ var h0ll0w = ( function() {
       hide:  function() { hide() },
       destroy: function() { destroy() }
     }
-
-  } )();
-
-
-  // module selection
-  var selection = ( function() {
-
-    var buildTemp = function( range ) {
-
-      debuglog( 'selection.buildTemp( ' + range + ' )' );
-
-      var el = document.createElement( 'temp' );
-      range.surroundContents( el );
-
-      debuglog( $( el ) );
-
-      return $( el );
-    }
-
-    var destroyTemp = function() {
-
-      debuglog( 'selection.destroyTemp()' );
-
-      $( 'temp' ).each( function() {
-
-          $( this ).replaceWith( $( this ).html() );
-
-      } );
-
-    }
-
-    var addFormat = function( range, tag ) {
-
-      debuglog( 'selection.addFormat( ' + range + ',' + tag + ')' );
-
-      var el = document.createElement( tag );
-      
-      range.surroundContents( el );
-      destroyTemp();
-      range.collapse();
-      tools.hide();
-
-      $( '.content' ).trigger( 'keyup' );
-
-      
-    }
-
-    var removeFormat = function( el ) {
-
-      debuglog( 'removeFormat()' );
-
-      el.replaceWith( el.html() );
-      tools.hide();
-
-      $( '.content' ).trigger( 'keyup' );
-    }
-
-    var focusEnd = function() {
-
-      debuglog( 'focusEnd()' );
-
-
-
-
-    }
-
-    return {
-      buildTemp: function( range ) { return buildTemp( range ); },
-      destroyTemp: function() { destroyTemp(); },
-      addFormat: function( range, tag ) { addFormat( range, tag ); },
-      removeFormat: function( el ) { removeFormat( el ) },
-      focusEnd: function() { focusEnd(); }
-    }
-
 
   } )();
 
@@ -437,7 +356,8 @@ var h0ll0w = ( function() {
   }
 
   return {
-    init: function() { init(); }
+    init: function() { init(); },
+    clipboard: clipboard
   }
 
 

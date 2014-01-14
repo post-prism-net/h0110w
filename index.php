@@ -31,7 +31,7 @@
     <a href="#" class="new" target="_blank">New Pad</a>
 </nav>
 
-<div class="content" contenteditable="true">
+<div class="content" contenteditable="true" onpaste="h0110w.clipboard.paste( this, event );">
 <strong>h0110w</strong>
 <br>
 <br>

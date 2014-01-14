@@ -16,7 +16,8 @@ body {
   outline: 0;
   /*-moz-transition: opacity 250ms ease;*/
 }
-strong {
+strong,
+b {
   font-weight: 600;
 }
 nav {
@@ -87,39 +88,25 @@ nav > a span input {
 }
 .tools {
   position: absolute;
-  left: 50%;
+  left: 0;
   /* set by js */
-  top: -2.5em;
+  top: 50%;
   /* set by js*/
   z-index: 99;
-  width: 4em;
-  margin: 0 0 0 -2em;
+  margin: 0 0 0 -4em;
   padding: 0;
   font-size: 0.5em;
   line-height: 1;
   color: #000;
   background: #444444;
   opacity: 1;
-  -moz-animation: 250ms fadein ease;
-}
-.tools::after {
-  content: ' ';
-  position: absolute;
-  bottom: -1.8em;
-  left: 50%;
-  display: block;
-  width: 0;
-  height: 0;
-  margin: 0 0 0 -1em;
-  border-style: solid;
-  border-width: 1em;
-  border-color: #444444 transparent transparent transparent;
+  -moz-transition: all 250ms ease;
 }
 .tools > a {
   display: block;
-  float: left;
   width: 2em;
-  padding: 0.75em 1em;
+  height: 1em;
+  padding: 0.5em 0;
   color: #fff;
   text-align: center;
   text-decoration: none;
@@ -139,17 +126,14 @@ nav > a span input {
   font-style: normal;
 }
 .tools.active {
-  opacity: 1;
+  margin-left: 0;
 }
-@-moz-keyframes fadein {
-  0% {
-    margin-top: -2em;
-    opacity: 0;
-  }
-  100% {
-    margin-top: 0;
-    opacity: 1;
-  }
+/* clipboard */
+textarea {
+  position: fixed;
+  z-index: 9999;
+  background: #eee;
+  font-size: 25%;
 }
 /* modal */
 .modal {
