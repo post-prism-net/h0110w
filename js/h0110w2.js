@@ -1,15 +1,21 @@
 $( document ).ready( function() {
-  
   h0110w.init();
-
-} ); /* } document.ready */
+} );
 
 
 var h0110w = ( function() {
 
-  var debug = true;
-  var defaulttext = '<strong>h0110w</strong><br><br>Transient publishing.';
+  /**
+   * General configuration
+   */
+  var config = new Array();
 
+  config['debug'] = true;
+  config['default_text'] = '<strong>h0110w</strong><br><br>Transient publishing.';
+
+  /**
+   * Init h0110w
+   */
   var init = function() {
     debuglog( 'h0110w.init()');
 
@@ -24,13 +30,22 @@ var h0110w = ( function() {
 
   }
 
+  /**
+   * Encodes the content HTML to URL-safe Base64 encoded LZ compressioned string
+   *
+   * @param   string  html  HTML content
+   * @return  string        base64 string
+   */
   var encode = function( html ) {
-
     var base64 = LZString.compressToBase64( html );
     return base64;
-  
   }
 
+  /**
+   * Decodes a base 64 encoded LZ compressed string to HTML content
+   * @param   string  base64  base64 string
+   * @return  string  html    HTML content      
+   */
   var decode = function( base64 ) {
 
     var html = LZString.decompressFromBase64( base64 );
@@ -38,17 +53,21 @@ var h0110w = ( function() {
   
   }
 
-  // module url 
+  /**
+   * Module URL
+   */
   var url = ( function() {
 
     var baseURL = window.location.href.replace( window.location.hash, '' );
 
+    /**
+     * Init module
+     */
     var init = function() {
       debuglog( 'url.init()' );
 
       var query = decodeURIComponent( location.href.replace( baseURL, '' ) );
 
-      // delete '/#'' from beginning of the query
       if( query.substr( 0,2 ) == '#/' ) {
         query = query.substr( 2 );
       }
@@ -56,14 +75,10 @@ var h0110w = ( function() {
       debuglog( 'query: ' + query, true );
 
       if( query.length > 0 ) {
-
         var html = decode( query );
         content.update( html );
-
       } else {
-
-        content.update( defaulttext );
-
+        content.update( config['default_text'] );
       }
 
       content.focusEnd();
@@ -71,89 +86,87 @@ var h0110w = ( function() {
 
     }
 
-    var update = function( query ) {
-      debuglog( 'url.update( ' + query + ' )' );
+    /**
+     * Updates the URL's hash 
+     *
+     * @param   hash   base64 encoded LZ compressed string
+     */
+    var update = function( hash ) {
+      debuglog( 'url.update( ' + hash + ' )' );
 
-      history.replaceState( 0, document.title, baseURL + '#/' + query );
+      history.replaceState( 0, document.title, baseURL + '#/' + hash );
     }
 
     return {
-      init: function() { init(); },
-      update: function( query ) { update( query ) },
+      init:       function() { init(); },
+      update:     function( query ) { update( query ) },
       getBaseURL: function() { return baseURL }
     }
-
 
   } )();
 
 
-  // module content 
+  /**
+   * Module content
+   */ 
   var content = ( function() {
 
     var el_content;
 
+    /**
+     * Init module
+     */
     var init = function() {
-
-      build();
-      el_content = $( '.content' );
+      el_content = build();
       bindEventHandlers();
       focusEnd();
-    
     }
 
+    /**
+     * Bind event Handlers to elements
+     */
     var bindEventHandlers = function() {
 
       is_typing = false;
 
+      /**
+       * Keyup event, throttled
+       */
       el_content.on( 'blur keyup', function() {
-
         debuglog( 'on.keyup' );
 
-        // throttle keyup event
         if( !is_typing ) {
-
           is_typing = true;
 
           setTimeout( function() {
             is_typing = false;
             onTyping();
           }, 1000 );
-
         }
-
       } );
 
+      /**
+       * Faked onSelect event
+       */
       el_content.on( 'mouseup', function() {
         debuglog( 'on.mouseup()' );
 
         if( getSelection() != '' ) {
-
           debuglog( 'on.select()' );
-
-          // show tools
           tools.show();
-
-
         } else {
-
-          // hide tools
           tools.hide();
-
         }
 
-      } );
-      
-      $( document ).on( 'mouseenter', '.content em, .content strong', function() {
-        tools.build( $( this ) );
-      } );
-
-
-      $( document ).on( 'mouseleave', '.content em, .content strong', function() {
-        tools.hide();
       } );
 
     }
 
+    /**
+     * Build the content area
+     * 
+     * @return  object  content <div> DOM object
+     */
     var build = function() {
       debuglog( 'content.build()' );
 
@@ -166,8 +179,12 @@ var h0110w = ( function() {
 
       html.appendTo( $( 'body' ) );
 
+      return html;
     }
 
+    /**
+     * Event: content changed
+     */
     var onTyping = function() {
 
         var html = el_content.html();
@@ -178,6 +195,11 @@ var h0110w = ( function() {
 
     }
 
+    /**
+     * Wrapper function to get current selected text 
+     *
+     * @return  text  selected text
+     */
     var getSelection = function() {
 
       var text = '';
@@ -190,40 +212,48 @@ var h0110w = ( function() {
         }
 
         return text;
-
     }
     
+    /**
+     * Set the cursor to the end of the current text content.
+     */
     var focusEnd = function() {
 
       var range;
       var selection;
 
       if( document.createRange ) {
-      
           range = document.createRange();
           range.selectNodeContents( el_content[0] );
           range.collapse( false );
           selection = window.getSelection();
           selection.removeAllRanges();
           selection.addRange( range );
-      
       } else if( document.selection ) { 
-          
           range = document.body.createTextRange();
           range.moveToElementText( el_content[0] );
           range.collapse( false );
           range.select();
-      
       }
-
     }
 
+    /**
+     * Format selected content text
+     * See http://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla?redirectlocale=en-US&redirectslug=Web%2FAPI%2Fdocument.execCommand#Executing_Commands 
+     *
+     * @param   string  format  format type
+     */
     var format = function( format ) {
       debuglog( 'content.format( ' + format + ' )' );
 
       document.execCommand( format );
     }
 
+    /**
+     * Update the whole content HTML
+     *
+     * @param   string  html  HTML content
+     */
     var update = function( html ) {
       debuglog( 'content.update( ' + html + ')' );
 
@@ -231,24 +261,30 @@ var h0110w = ( function() {
     }
 
     return {
-      init: function() { init(); },
+      init:         function() { init(); },
       getSelection: function() { getSelection(); },
-      focusEnd: function() { focusEnd(); },
-      format: function( f ) { format( f ) },
-      update: function( html ) { update( html ); }
+      focusEnd:     function() { focusEnd(); },
+      format:       function( f ) { format( f ) },
+      update:       function( html ) { update( html ); }
     }
 
   } )();
 
 
-  // module clipboard
+  /**
+   * Module clipboard
+   */
   var clipboard = ( function() { 
 
+    /**
+     * Paste raw-text-only from clipboard
+     *
+     * @param   object  el  DOM element
+     * @param   obhect  e   event object
+     */
     var paste = function( el, e ) {
-
       document.execCommand( 'insertText', false, e.clipboardData.getData( 'text/plain' ) );
       e.preventDefault();
-
     }
 
     return {
@@ -257,38 +293,42 @@ var h0110w = ( function() {
 
   } )()
 
-  // module tools
+
+  /**
+   * Module format tools
+   */  
   var tools = ( function() {
 
     var el_tools;
 
     var init = function() {
-
-      build();
+      el_tools = build();
       bindEventHandlers();
-      el_tools = $( '.tools' );
-    
     }
 
+    /**
+     * bind event handlers to DOM elements
+     */  
     var bindEventHandlers = function() {
 
       $( document ).on( 'click', '.tools a', function( e ) {
-
         e.preventDefault();
         var format = $( this ).attr( 'data-format' );
         content.format( format );
-
       } );
 
     }
 
-    var build = function( el, range ) {
+    /**
+     * build tools
+     *
+     * @return  object  html  DOM element   
+     */  
+    var build = function() {
+      debuglog( 'tools.build()' );
 
-      debuglog( 'tools.build( el: ' + el + ', range: ' + range + ')' );
-
-      var el_tools = $( '<div class="tools" contenteditable="false"></div>' );      
+      var html = $( '<div class="tools" contenteditable="false"></div>' );      
       var links = new Array();
-
 
       /* link strong style */
       links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="strong">A</a>' ) );
@@ -301,82 +341,91 @@ var h0110w = ( function() {
 
 
       $.each( links, function() {
-        el_tools.append( $( this ) );
+        html.append( $( this ) );
       });
+      html.prependTo( $( 'body' ) );
 
-      el_tools.prependTo( $( 'body' ) );
-
+      return html;
     }
 
+    /**
+     * show tools
+     *
+     */ 
     var show = function() {
       debuglog( 'tools.show()' );
 
       setTimeout( function() {
-
         el_tools.addClass( 'active' );
-
       }, 1 );
-
     }
 
+    /**
+     * hide tools
+     *
+     */ 
     var hide = function() {
       debuglog( 'tools.hide()' );
 
       el_tools.removeClass( 'active' );
     }
 
+    /**
+     * destroy tools
+     *
+     */ 
     var destroy = function() {
-
       init();
 
       el_tools
         .delay( 500 )
         .remove();
-
     }
 
     return {
-      init:  function() { init() },
-      build: function( el, range ) { build( el, range ) },
-      show:  function() { show() },
-      hide:  function() { hide() },
+      init:    function() { init() },
+      build:   function() { build() },
+      show:    function() { show() },
+      hide:    function() { hide() },
       destroy: function() { destroy() }
     }
 
   } )();
 
-  // module nav 
 
+  /**
+   * Module navigation 
+   */
   var nav = ( function() {
 
     var el_nav;
 
+    /**
+     * Init module
+     */
     var init = function() {
-
-      build();
-      el_nav = $( 'nav' );
+      el_nav = build();
       bindEventHandlers();
-
     }
 
+    /**
+     * bind event handlers to elements
+     */
     var bindEventHandlers = function() {
-
-      // prevent action on share link 
       el_nav.find( '.share' ).on( 'click', function( e ) {
-
         e.preventDefault();
-
       } );
 
-      // select url on click 
       el_nav.find( '.share input' ).on( 'click', function() {
-
         $( this ).select();
-
       } );
-
     }
 
+    /**
+     * build navigation DOM elements
+     * 
+     * return   object    html  DOM element
+     */
     var build = function() {
       debuglog( 'nav.build()' );
 
@@ -387,14 +436,20 @@ var h0110w = ( function() {
         .append( '<a href="' + url.getBaseURL() + '" class="new" target="_blank">New</a>' );
       
       html.appendTo( $( 'body' ) );
+
+      return html;
     }
 
+    /**
+     * Update the sharing link in the input
+     * 
+     * @param   string  url   current URL  
+     */
     var update = function( url ) {
       debuglog( 'nav.update( ' + url + ' )' );
-      debuglog( el_nav );
 
       el_nav.find( '.share input' )
-        .attr( 'value', '' )
+        // .attr( 'value', '' )
         .attr( 'value', url );
     }
 
@@ -403,20 +458,22 @@ var h0110w = ( function() {
       update: function( url ) { update( url ); }
     }
 
-
   } )();
 
 
-  // debuglog 
-
+  /**
+   * Logging debug infos to console
+   * 
+   * @param   string  l   log message 
+   */
   var debuglog = function( l ) {
-    if( ( debug ) && typeof console != 'undefined' ) console.log( l );
+    if( ( config['debug'] ) && typeof console != 'undefined' ) {
+      console.log( l );
+    }
   }
 
   return {
     init: function() { init(); },
     clipboard: clipboard
   }
-
-
 } )()
