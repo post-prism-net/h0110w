@@ -2,7 +2,9 @@ $( document ).ready( function() {
   h0110w.init();
 } );
 
-
+/**
+ * Object h0110w
+ */
 var h0110w = ( function() {
 
   /**
@@ -32,6 +34,7 @@ var h0110w = ( function() {
 
   /**
    * Encodes the content HTML to URL-safe Base64 encoded LZ compressioned string
+   * http://pieroxy.net/blog/pages/lz-string/index.html
    *
    * @param   string  html  HTML content
    * @return  string        base64 string
@@ -43,6 +46,8 @@ var h0110w = ( function() {
 
   /**
    * Decodes a base 64 encoded LZ compressed string to HTML content
+   * http://pieroxy.net/blog/pages/lz-string/index.html
+   *
    * @param   string  base64  base64 string
    * @return  string  html    HTML content      
    */
@@ -66,24 +71,26 @@ var h0110w = ( function() {
     var init = function() {
       debuglog( 'url.init()' );
 
-      var query = decodeURIComponent( location.href.replace( baseURL, '' ) );
+      var hash = decodeURIComponent( location.href.replace( baseURL, '' ) );
 
-      if( query.substr( 0,2 ) == '#/' ) {
-        query = query.substr( 2 );
+      /**
+       * remove '/#' from hash
+       */
+      if( hash.substr( 0,2 ) == '#/' ) {
+        hash = hash.substr( 2 );
       }
 
-      debuglog( 'query: ' + query, true );
+      debuglog( 'query: ' + hash );
 
-      if( query.length > 0 ) {
-        var html = decode( query );
+      if( hash.length > 0 ) {
+        var html = decode( hash );
         content.update( html );
       } else {
         content.update( config['default_text'] );
       }
 
       content.focusEnd();
-      nav.update( baseURL + '#/' + query );
-
+      nav.update( baseURL + '#/' + hash );
     }
 
     /**
