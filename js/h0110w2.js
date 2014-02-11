@@ -8,9 +8,12 @@ $( document ).ready( function() {
 var h0110w = ( function() {
 
   var debug = true;
+  var defaulttext = '<strong>h0110w</strong><br><br>Transient publishing.';
 
   var init = function() {
     debuglog( 'h0110w.init()');
+
+    $( 'html' ).addClass( 'js' );
 
     tools.init();
     nav.init(); 
@@ -38,8 +41,7 @@ var h0110w = ( function() {
   // module url 
   var url = ( function() {
 
-    var baseURL = $( 'head' ).attr( 'data-baseurl' );
-
+    var baseURL = window.location.href.replace( window.location.hash, '' );
 
     var init = function() {
       debuglog( 'url.init()' );
@@ -58,9 +60,14 @@ var h0110w = ( function() {
         var html = decode( query );
         content.update( html );
 
-        nav.update( baseURL + '#/' + query );
+      } else {
+
+        content.update( defaulttext );
 
       }
+
+      content.focusEnd();
+      nav.update( baseURL + '#/' + query );
 
     }
 
@@ -87,8 +94,10 @@ var h0110w = ( function() {
 
     var init = function() {
 
+      build();
       el_content = $( '.content' );
       bindEventHandlers();
+      focusEnd();
     
     }
 
@@ -145,6 +154,20 @@ var h0110w = ( function() {
 
     }
 
+    var build = function() {
+      debuglog( 'content.build()' );
+
+      var html = $( '<div></div>' );
+
+      html
+        .addClass( 'content' )
+        .attr( 'contenteditable', 'true' )
+        .attr( 'onpaste', 'h0110w.clipboard.paste( this, event );' );
+
+      html.appendTo( $( 'body' ) );
+
+    }
+
     var onTyping = function() {
 
         var html = el_content.html();
@@ -169,6 +192,31 @@ var h0110w = ( function() {
         return text;
 
     }
+    
+    var focusEnd = function() {
+
+      var range;
+      var selection;
+
+      if( document.createRange ) {
+      
+          range = document.createRange();
+          range.selectNodeContents( el_content[0] );
+          range.collapse( false );
+          selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange( range );
+      
+      } else if( document.selection ) { 
+          
+          range = document.body.createTextRange();
+          range.moveToElementText( el_content[0] );
+          range.collapse( false );
+          range.select();
+      
+      }
+
+    }
 
     var format = function( format ) {
       debuglog( 'content.format( ' + format + ' )' );
@@ -185,6 +233,7 @@ var h0110w = ( function() {
     return {
       init: function() { init(); },
       getSelection: function() { getSelection(); },
+      focusEnd: function() { focusEnd(); },
       format: function( f ) { format( f ) },
       update: function( html ) { update( html ); }
     }
@@ -248,7 +297,7 @@ var h0110w = ( function() {
       links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="emphasize">A</a>' ) );
       
       /* link remove style */
-      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove Format">&times</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove Format">&#x2715;</a>' ) );
 
 
       $.each( links, function() {
@@ -304,6 +353,7 @@ var h0110w = ( function() {
 
     var init = function() {
 
+      build();
       el_nav = $( 'nav' );
       bindEventHandlers();
 
@@ -318,7 +368,6 @@ var h0110w = ( function() {
 
       } );
 
-
       // select url on click 
       el_nav.find( '.share input' ).on( 'click', function() {
 
@@ -328,6 +377,17 @@ var h0110w = ( function() {
 
     }
 
+    var build = function() {
+      debuglog( 'nav.build()' );
+
+      var html = $( '<nav></nav>' );
+
+      html
+        .append( '<a href="#" class="share">Share<span><input type="text" name="url" value="" readonly="readonly"/></span></a>' )
+        .append( '<a href="http://localhost//" class="new" target="_blank">New</a>' );
+      
+      html.appendTo( $( 'body' ) );
+    }
 
     var update = function( url ) {
       debuglog( 'nav.update( ' + url + ' )' );
@@ -350,9 +410,7 @@ var h0110w = ( function() {
   // debuglog 
 
   var debuglog = function( l ) {
-
     if( ( debug ) && typeof console != 'undefined' ) console.log( l );
-
   }
 
   return {

@@ -1,7 +1,7 @@
 // VARIABLES
 
-@color: #444;
-@color-light: lighten( @color, 40% );
+@color: #333;
+@color-light: lighten( @color, 5% );
 
 @color-2: #222;
 
@@ -26,6 +26,7 @@ body {
     font-weight: 300;
     line-height: 1.3333;
 
+    color: @color;
     background: #fff;
 }
 
@@ -42,15 +43,15 @@ b {
 nav {
   position: fixed;
   right: 1em;
-  top: 1em;
+  top: 0;
   z-index: 99;
 }
 
 nav > a {
   position: relative;
   float: right;
-  margin: 0 0 0 0.25em;
-  padding: 0.75em 1em 0.6em;
+  margin: 0 1px 0 0;
+  padding: 0.5em 1em;
   
   font-size: 0.75em;
   font-weight: bold;
@@ -78,9 +79,10 @@ nav > a.share:active {
 nav > a span {
   position: absolute;
   right: 0;
-  top: 100%;
+  top: 2em;
 
   display: none;
+  margin: 1px 0 0 0;
   padding: 1em;
 
   background: @color;
@@ -117,42 +119,19 @@ nav > a span input {
     overflow: auto;
 }
 
-.content temp,
-.content strong,
-.content em {
-  position: relative;
-  display: inline;
-}
-
-.content .color {
-  color: @color;
-}
-
-.content temp {
-
-}
-
-.content temp .tools {
-
-}
-
 .tools {
     position: absolute;
-    left: 0; /* set by js */
-    top: 50%; /* set by js*/
+    left: 0; 
+    top: 50%;
     z-index: 99;
 
-    margin: 0 0 0 -4em;
+    margin: -3em 0 0 -4em;
     padding: 0;
 
-    // font-family: Helvetica,Arial,sans-serif;
-    font-size: 0.5em;
+    font-size: 0.75em;
     line-height: 1;
 
     color: #000;
-    background: @color;
-
-    opacity: 1;
 
     -moz-transition: all 250ms ease;
 }
@@ -161,13 +140,21 @@ nav > a span input {
   display: block;
   width: 2em;
   height: 1em;
+  margin: 0 0 1px 0;
   padding: 0.5em 0;
 
   color: #fff;
   text-align: center;
   text-decoration: none;
 
-  background: none !important;
+  background: @color;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: @color-light;
+  }
+
 }
 
 .tools > a.emphasize {
@@ -231,27 +218,17 @@ textarea {
   display: none;
 }
 
-.no-contenteditable .modal.browser {
+.modal.javascript {
   display: block;
 }
 
-.no-js .modal.javascript {
-  display: block;
-}
-
-.modal.console {
-  display: block;
+.js .modal.javascript {
+  display: none;
 }
 
 
 
 /* selection / styles */ 
-
-.content temp,
-.content strong:hover,
-.content em:hover {
-    background: @color-light;
-}
 
 ::selection {
   color: #fff;
@@ -269,10 +246,4 @@ a::selection {
 
 a::-moz-selection {
   background: none !important;
-}
-
-.content temp a,
-.content strong:hover a,
-.content em:hover a {
-    background: none !important;
 }
