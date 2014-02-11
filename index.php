@@ -15,15 +15,12 @@
 </head>
 <body>
 
-<!-- optional warning modals -->
-<div class="modal javascript">
-    <h2>Without Javascript</h2>
-    <p>there is nothing here for you.</p>
-</div>
-<div class="modal browser">
-    <h2>o_o</h2>
-    <p>Your browser&apos;s way too old for that.</p>
-</div>
-<!-- end modals -->
+<noscript>
+    <div class="modal javascript">
+        <h2>Without Javascript</h2>
+        <p>there is nothing here for you.</p>
+    </div>
+</noscript>
+
 </body>
 </html>
