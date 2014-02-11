@@ -384,7 +384,7 @@ var h0110w = ( function() {
 
       html
         .append( '<a href="#" class="share">Share<span><input type="text" name="url" value="" readonly="readonly"/></span></a>' )
-        .append( '<a href="http://localhost//" class="new" target="_blank">New</a>' );
+        .append( '<a href="' + url.getBaseURL() + '" class="new" target="_blank">New</a>' );
       
       html.appendTo( $( 'body' ) );
     }
