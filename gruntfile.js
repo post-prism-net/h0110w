@@ -8,7 +8,7 @@ module.exports = function(grunt){
 		less: {
 		  development: {
 		    files: {
-		      "h0110w.css": "h0110w.less"
+		      "css/h0110w.css": "css/h0110w.less"
 		    }
 		  }
 		},
@@ -30,7 +30,7 @@ module.exports = function(grunt){
 
 		watch: {
 		    css: {
-		        files: ['*.less'],
+		        files: ['css/*.less'],
 		        tasks: ['buildcss']
 		    },
 		    js: {
