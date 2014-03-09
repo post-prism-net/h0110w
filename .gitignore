@@ -1,3 +1,6 @@
 node_modules
 *.sublime-*
 .DS_Store
+compression.html
+intro.html
+lib.php
