@@ -41,6 +41,7 @@ var h0110w = ( function() {
    */
   var encode = function( html ) {
     var base64 = LZString.compressToBase64( html );
+    debuglog( 'Compression ratio: ' + computeRatio( html, base64 ) + '%' );
     return base64;
   }
 
@@ -52,10 +53,14 @@ var h0110w = ( function() {
    * @return  string  html    HTML content      
    */
   var decode = function( base64 ) {
-
     var html = LZString.decompressFromBase64( base64 );
     return html;
-  
+  }
+
+  var computeRatio = function( html, base64 ) {
+    var ratio = parseInt( base64.length / html.length * 100 );
+
+    return ratio; 
   }
 
   /**
@@ -63,13 +68,15 @@ var h0110w = ( function() {
    */
   var url = ( function() {
 
-    var baseURL = window.location.href.replace( window.location.hash, '' );
+    var baseURL;
 
     /**
      * Init module
      */
     var init = function() {
       debuglog( 'url.init()' );
+
+      baseURL = window.location.href.replace( window.location.hash, '' );
 
       var hash = decodeURIComponent( location.href.replace( baseURL, '' ) );
 
@@ -79,8 +86,6 @@ var h0110w = ( function() {
       if( hash.substr( 0,2 ) == '#/' ) {
         hash = hash.substr( 2 );
       }
-
-      debuglog( 'query: ' + hash );
 
       if( hash.length > 0 ) {
         var html = decode( hash );
@@ -99,7 +104,7 @@ var h0110w = ( function() {
      * @param   hash   base64 encoded LZ compressed string
      */
     var update = function( hash ) {
-      debuglog( 'url.update( ' + hash + ' )' );
+      // debuglog( 'url.update( ' + hash + ' )' );
 
       history.replaceState( 0, document.title, baseURL + '#/' + hash );
     }
@@ -133,7 +138,6 @@ var h0110w = ( function() {
      * Bind event Handlers to elements
      */
     var bindEventHandlers = function() {
-
       is_typing = false;
 
       /**
@@ -184,7 +188,7 @@ var h0110w = ( function() {
         .attr( 'contenteditable', 'true' )
         .attr( 'onpaste', 'h0110w.clipboard.paste( this, event );' );
 
-      html.appendTo( $( 'body' ) );
+      $( 'body' ).append( html );
 
       return html;
     }
@@ -262,7 +266,7 @@ var h0110w = ( function() {
      * @param   string  html  HTML content
      */
     var update = function( html ) {
-      debuglog( 'content.update( ' + html + ')' );
+      // debuglog( 'content.update( ' + html + ')' );
 
       el_content.html( html );
     }
@@ -453,7 +457,7 @@ var h0110w = ( function() {
      * @param   string  url   current URL  
      */
     var update = function( url ) {
-      debuglog( 'nav.update( ' + url + ' )' );
+      // debuglog( 'nav.update( ' + url + ' )' );
 
       el_nav.find( '.share input' )
         // .attr( 'value', '' )
