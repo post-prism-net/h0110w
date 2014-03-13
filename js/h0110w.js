@@ -13,7 +13,7 @@ var h0110w = ( function() {
   var config = new Array();
 
   config['debug'] = true;
-  config['default_text'] = '<strong>h0110w</strong><br><br>Transient publishing.';
+  config['default_text'] = '<strong>h0110w</strong><br><br>transient publishing.';
 
   /**
    * Init h0110w
@@ -159,7 +159,7 @@ var h0110w = ( function() {
       /**
        * Faked onSelect event
        */
-      el_content.on( 'mouseup', function() {
+      el_content.on( 'mouseup touchend', function() {
         debuglog( 'on.mouseup()' );
 
         if( getSelection() != '' ) {
@@ -342,10 +342,10 @@ var h0110w = ( function() {
       var links = new Array();
 
       /* link strong style */
-      links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="strong">A</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="strong">Aa</a>' ) );
 
       /* link em style */
-      links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="emphasize">A</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="emphasize">Aa</a>' ) );
       
       /* link remove style */
       links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove Format">&#x2715;</a>' ) );
@@ -440,11 +440,11 @@ var h0110w = ( function() {
     var build = function() {
       debuglog( 'nav.build()' );
 
-      var html = $( '<nav></nav>' );
+      var html = $( '<nav><h1>h0110w</h1></nav>' );
 
       html
-        .append( '<a href="#" class="share">Share<span><input type="text" name="url" value="" readonly="readonly"/></span></a>' )
-        .append( '<a href="' + url.getBaseURL() + '" class="new" target="_blank">New</a>' );
+        .append( '<a href="#" class="share">share<span><input type="text" name="url" value="" readonly="readonly"/></span></a>' )
+        .append( '<a href="' + url.getBaseURL() + '" class="new" target="_blank">new</a>' );
       
       html.appendTo( $( 'body' ) );
 

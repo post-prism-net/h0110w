@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,300,500,600 );
 html,
 body {
   height: 100%;
@@ -6,106 +7,148 @@ body {
   overflow: hidden;
 }
 body {
-  font-family: Arial, sans-serif;
-  font-size: 260%;
+  font-family: 'Source Code Pro', Arial, sans-serif;
+  font-size: 240%;
   font-weight: 300;
-  line-height: 1.3333;
-  color: #333333;
-  background: #fff;
+  line-height: 1.4;
+  color: #000000;
+  background: #bdc3c3;
 }
 * {
   outline: 0;
-  /*-moz-transition: opacity 250ms ease;*/
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 1em;
+}
+h1 {
+  float: left;
+  padding: 1em;
+  font-size: 0.5em;
+  font-weight: 300;
+  line-height: 1;
 }
 strong,
 b {
-  font-weight: 600;
+  font-weight: 500;
+}
+input[type='submit'],
+input[type='reset'],
+input[type='button'],
+button,
+.button {
+  cursor: pointer;
+  white-space: nowrap;
+}
+input[type='submit']:hover,
+input[type='reset']:hover,
+input[type='button']:hover,
+button:hover,
+.button:hover,
+input[type='submit']:active,
+input[type='reset']:active,
+input[type='button']:active,
+button:active,
+.button:active,
+input[type='submit']:focus,
+input[type='reset']:focus,
+input[type='button']:focus,
+button:focus,
+.button:focus {
+  background: rgba(0, 0, 0, 0.15);
 }
 nav {
   position: fixed;
-  right: 1em;
+  right: 0;
+  left: 0;
   top: 0;
-  z-index: 99;
+  z-index: 11;
+  background: #bdc3c3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 nav > a {
-  position: relative;
   float: right;
-  margin: 0 1px 0 0;
-  padding: 0.5em 1em;
-  font-size: 0.75em;
-  font-weight: bold;
+  margin: 0;
+  padding: 1em;
+  font-size: 0.5em;
   line-height: 1;
-  color: #fff;
-  background: #333333;
+  color: #000000;
   text-decoration: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  white-space: nowrap;
 }
 nav > a:hover,
-nav > a:focus,
-nav > a:active {
-  background: #222222;
-}
-nav > a.share:hover,
-nav > a.share:focus,
-nav > a.share:active {
-  padding-bottom: 1em;
-}
-nav > a span {
-  position: absolute;
-  right: 0;
-  top: 2em;
-  display: none;
-  margin: 1px 0 0 0;
-  padding: 1em;
-  background: #333333;
-}
-nav > a:hover span,
-nav > a:active span,
-nav > a:focus span {
-  display: block;
-  background: #222222;
+nav > a:active,
+nav > a:focus {
+  background: rgba(0, 0, 0, 0.15);
 }
 nav > a span input {
-  padding: 0.4em 0.4em;
+  height: 1em;
+  width: 0;
+  margin: -0.5em 0 -0.5em 0;
+  padding: 0.5em 0;
   font-family: inherit;
-  font-size: 100%;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1;
+  background: #bdc3c3;
   border: none;
+  transition: all 250ms ease;
+}
+nav > a:hover input,
+nav > a:active input,
+nav > a:focus input {
+  width: 12em;
+  margin-left: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 .content {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 1.5em;
   right: 0;
   bottom: 0;
   padding: 1em;
   overflow: auto;
 }
 .tools {
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 50%;
-  z-index: 99;
-  margin: -3em 0 0 -4em;
+  top: 0;
+  z-index: 13;
+  margin: 0 0 0 -10em;
   padding: 0;
-  font-size: 0.75em;
-  line-height: 1;
-  color: #000;
   -moz-transition: all 250ms ease;
+}
+.tools.active {
+  margin-left: 0;
 }
 .tools > a {
   display: block;
-  width: 2em;
+  float: left;
+  width: 3em;
   height: 1em;
-  margin: 0 0 1px 0;
-  padding: 0.5em 0;
-  color: #fff;
+  margin: 0;
+  padding: 1em 0;
+  font-size: 0.5em;
+  line-height: 1;
+  color: #000000;
   text-align: center;
   text-decoration: none;
-  background: #333333;
+  background: #bdc3c3;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 .tools > a:hover,
 .tools > a:active,
 .tools > a:focus {
-  background: #404040;
+  background: #a1a6a6;
 }
 .tools > a.emphasize {
   font-weight: normal !important;
@@ -114,14 +157,6 @@ nav > a span input {
 .tools > a.strong {
   font-weight: bold;
   font-style: normal !important;
-}
-.tools > a.remove {
-  width: 2em;
-  font-weight: normal;
-  font-style: normal;
-}
-.tools.active {
-  margin-left: 0;
 }
 /* clipboard */
 textarea {
@@ -151,12 +186,12 @@ textarea {
 }
 /* selection / styles */
 ::selection {
-  color: #fff;
-  background: #333333;
+  color: #000000;
+  background: #2fe6ed;
 }
 ::-moz-selection {
-  color: #fff;
-  background: #333333;
+  color: #000000;
+  background: #2fe6ed;
 }
 a::selection {
   background: none !important;
