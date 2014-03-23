@@ -1,4 +1,9 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,300,500,600 );
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400,500,600 );
+/**
+  * Global styles
+  *
+  *
+  */
 html,
 body {
   height: 100%;
@@ -11,6 +16,11 @@ body {
   font-size: 240%;
   font-weight: 300;
   line-height: 1.4;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: 'liga', 'dlig', 'kern';
+  -moz-font-feature-settings: 'liga', 'dlig', 'kern';
+  font-feature-settings: 'liga', 'dlig', 'kern';
+  text-size-adjust: 100%;
   color: #000000;
   background: #bdc3c3;
 }
@@ -24,7 +34,7 @@ h4,
 h5,
 h6 {
   margin: 0;
-  font-weight: 1em;
+  font-size: 1em;
 }
 h1 {
   float: left;
@@ -99,6 +109,7 @@ nav > a span input {
   line-height: 1;
   background: #bdc3c3;
   border: none;
+  -webkit-transition: all 250ms ease;
   transition: all 250ms ease;
 }
 nav > a:hover input,
@@ -125,7 +136,8 @@ nav > a:focus input {
   z-index: 13;
   margin: 0 0 0 -10em;
   padding: 0;
-  -moz-transition: all 250ms ease;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
 }
 .tools.active {
   margin-left: 0;
@@ -184,18 +196,18 @@ textarea {
   font-size: 100%;
   line-height: 1.3;
 }
-/* selection / styles */
-::selection {
-  color: #000000;
-  background: #2fe6ed;
-}
+/* selection */
 ::-moz-selection {
   color: #000000;
   background: #2fe6ed;
 }
-a::selection {
-  background: none !important;
+::selection {
+  color: #000000;
+  background: #2fe6ed;
 }
 a::-moz-selection {
+  background: none !important;
+}
+a::selection {
   background: none !important;
 }

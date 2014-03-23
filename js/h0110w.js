@@ -1,9 +1,5 @@
-$( document ).ready( function() {
-  h0110w.init();
-} );
-
 /**
- * Object h0110w
+ * h0110w App
  */
 var h0110w = ( function() {
 
@@ -28,6 +24,7 @@ var h0110w = ( function() {
     content.init();
     url.init(); 
 
+
     $( '.content' ).focus();
 
   }
@@ -36,8 +33,8 @@ var h0110w = ( function() {
    * Encodes the content HTML to URL-safe Base64 encoded LZ compressioned string
    * http://pieroxy.net/blog/pages/lz-string/index.html
    *
-   * @param   string  html  HTML content
-   * @return  string        base64 string
+   * @param   {string}  html  HTML content
+   * @return  {string}  base64 string
    */
   var encode = function( html ) {
     var base64 = LZString.compressToBase64( html );
@@ -49,8 +46,8 @@ var h0110w = ( function() {
    * Decodes a base 64 encoded LZ compressed string to HTML content
    * http://pieroxy.net/blog/pages/lz-string/index.html
    *
-   * @param   string  base64  base64 string
-   * @return  string  html    HTML content      
+   * @param   {string}  base64  base64 string
+   * @return  {string}  html content      
    */
   var decode = function( base64 ) {
     var html = LZString.decompressFromBase64( base64 );
@@ -76,7 +73,10 @@ var h0110w = ( function() {
     var init = function() {
       debuglog( 'url.init()' );
 
+
+
       baseURL = window.location.href.replace( window.location.hash, '' );
+      debuglog( 'baseURL: ' + baseURL );
 
       var hash = decodeURIComponent( location.href.replace( baseURL, '' ) );
 
@@ -101,7 +101,7 @@ var h0110w = ( function() {
     /**
      * Updates the URL's hash 
      *
-     * @param   hash   base64 encoded LZ compressed string
+     * @param   {string}   hash   base64 encoded LZ compressed string
      */
     var update = function( hash ) {
       // debuglog( 'url.update( ' + hash + ' )' );
@@ -176,7 +176,7 @@ var h0110w = ( function() {
     /**
      * Build the content area
      * 
-     * @return  object  content <div> DOM object
+     * @return  {object}  jquery object
      */
     var build = function() {
       debuglog( 'content.build()' );
@@ -209,7 +209,7 @@ var h0110w = ( function() {
     /**
      * Wrapper function to get current selected text 
      *
-     * @return  text  selected text
+     * @return  {string}  selected text
      */
     var getSelection = function() {
 
@@ -252,7 +252,7 @@ var h0110w = ( function() {
      * Format selected content text
      * See http://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla?redirectlocale=en-US&redirectslug=Web%2FAPI%2Fdocument.execCommand#Executing_Commands 
      *
-     * @param   string  format  format type
+     * @param   {string}  format  format type
      */
     var format = function( format ) {
       debuglog( 'content.format( ' + format + ' )' );
@@ -263,7 +263,7 @@ var h0110w = ( function() {
     /**
      * Update the whole content HTML
      *
-     * @param   string  html  HTML content
+     * @param   {string}  html  HTML content
      */
     var update = function( html ) {
       // debuglog( 'content.update( ' + html + ')' );
@@ -290,8 +290,8 @@ var h0110w = ( function() {
     /**
      * Paste raw-text-only from clipboard
      *
-     * @param   object  el  DOM element
-     * @param   obhect  e   event object
+     * @param   {object}  el  jquery object 
+     * @param   {obhejt}  e   event object
      */
     var paste = function( el, e ) {
       document.execCommand( 'insertText', false, e.clipboardData.getData( 'text/plain' ) );
@@ -333,7 +333,7 @@ var h0110w = ( function() {
     /**
      * build tools
      *
-     * @return  object  html  DOM element   
+     * @return  {object}  jquery object   
      */  
     var build = function() {
       debuglog( 'tools.build()' );
@@ -342,13 +342,13 @@ var h0110w = ( function() {
       var links = new Array();
 
       /* link strong style */
-      links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="strong">Aa</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="> strong">Aa</a>' ) );
 
       /* link em style */
-      links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="emphasize">Aa</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="> emphasize">Aa</a>' ) );
       
       /* link remove style */
-      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove Format">&#x2715;</a>' ) );
+      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove format">&#x2715;</a>' ) );
 
 
       $.each( links, function() {
@@ -435,16 +435,18 @@ var h0110w = ( function() {
     /**
      * build navigation DOM elements
      * 
-     * return   object    html  DOM element
+     * return   {object}  jquery object
      */
     var build = function() {
       debuglog( 'nav.build()' );
 
       var html = $( '<nav><h1>h0110w</h1></nav>' );
 
+      debuglog( 'url.getBaseURL: ' + url.getBaseURL() );
+
       html
         .append( '<a href="#" class="share">share<span><input type="text" name="url" value="" readonly="readonly"/></span></a>' )
-        .append( '<a href="' + url.getBaseURL() + '" class="new" target="_blank">new</a>' );
+        .append( '<a href="#" class="new" target="_blank">new</a>' );
       
       html.appendTo( $( 'body' ) );
 
@@ -454,13 +456,12 @@ var h0110w = ( function() {
     /**
      * Update the sharing link in the input
      * 
-     * @param   string  url   current URL  
+     * @param   {string}  url   current URL  
      */
     var update = function( url ) {
       // debuglog( 'nav.update( ' + url + ' )' );
 
       el_nav.find( '.share input' )
-        // .attr( 'value', '' )
         .attr( 'value', url );
     }
 
@@ -475,7 +476,7 @@ var h0110w = ( function() {
   /**
    * Logging debug infos to console
    * 
-   * @param   string  l   log message 
+   * @param   {string}  l   log message 
    */
   var debuglog = function( l ) {
     if( ( config['debug'] ) && typeof console != 'undefined' ) {
@@ -488,3 +489,7 @@ var h0110w = ( function() {
     clipboard: clipboard
   }
 } )()
+
+$( document ).ready( function() {
+  h0110w.init();
+} );

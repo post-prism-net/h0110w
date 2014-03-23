@@ -13,6 +13,13 @@ module.exports = function(grunt){
 		  }
 		},
 
+		autoprefixer: {
+		    style: {
+		      src: 'css/h0110w.css',
+		      dest: 'css/h0110w.css'
+		    }
+		},
+
 		uglify: {
 			dependencies: {
 			  files: {
@@ -21,8 +28,7 @@ module.exports = function(grunt){
 			},
 			app: {
 				files: {
-					'js/h0110w.min.js': ['js/h0110w.js'],
-					'js/h0110w2.min.js': ['js/h0110w2.js']
+					'js/h0110w.min.js': ['js/h0110w.js']
 				}
 			}
 
@@ -43,7 +49,7 @@ module.exports = function(grunt){
 
     grunt.registerTask('default', ['build']);
 
-	grunt.registerTask('buildcss',  ['less']);
+	grunt.registerTask('buildcss',  ['less', 'autoprefixer']);
 	grunt.registerTask('buildjs',  ['uglify']);
 
 	grunt.registerTask('build',  ['buildcss', 'buildjs']);

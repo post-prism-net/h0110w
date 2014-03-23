@@ -1,4 +1,5 @@
 node_modules
+.gitignore
 *.sublime-*
 .DS_Store
 compression.html
