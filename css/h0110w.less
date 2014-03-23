@@ -13,7 +13,7 @@ body {
 
 body {
   font-family: @font-one;
-  font-size: ( @font-size-one * 2 );
+  font-size: @font-size-one;
   font-weight: @font-weight-one;
   line-height: @line-height;
   text-rendering: optimizeLegibility;
@@ -24,6 +24,12 @@ body {
   background: @bg;
 }
 
+@media @smaller {
+  body {
+    font-size: 90%;
+  }
+}
+
 * {
   outline: 0;
 }
@@ -31,9 +37,7 @@ body {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
   margin: 0;
   font-size: 1em;
 }
@@ -42,7 +46,7 @@ h1 {
   float: left;
   padding: 1em;
 
-  font-size: 0.5em;
+  font-size: 1em;
   font-weight: @font-weight-one;
   line-height: 1;
 }
@@ -83,7 +87,7 @@ nav > a {
   margin: 0;
   padding: 1em;
   
-  font-size: 0.5em;
+  font-size: 1em;
   line-height: 1;
   color: @text;
   text-decoration: none;
@@ -125,6 +129,40 @@ nav > a:focus input {
   padding-right: 0.5em;
 }
 
+@media @smaller {
+  nav > a span {
+    position: absolute;
+    left: 0;
+    top: -6em;
+    right: 0;
+    z-index: 0;
+
+    display: block;
+    margin: 0;
+    padding: 1em 1em 1em 2em;
+
+    background: mix( #000, @bg, ( @opacity * 100 ) );
+    border-top: @border;
+    border-bottom: @border;
+  }
+
+  nav > a:hover span,
+  nav > a:active span,
+  nav > a:focus span {
+    top: 3em;
+  }
+
+  nav > a span input,
+  nav > a:hover input,
+  nav > a:active input,
+  nav > a:focus input {
+    width: 100%;
+    margin: 0 -1em;
+    padding: 0.5em;
+  }
+
+}
+
 .content {
   position: fixed;
   left: 0;
@@ -133,6 +171,8 @@ nav > a:focus input {
   bottom: 0;
 
   padding: 1em;
+
+  font-size: 2em;
 
   overflow: auto;
 }
@@ -161,7 +201,6 @@ nav > a:focus input {
   margin: 0;
   padding: 1em 0;
 
-  font-size: 0.5em;
   line-height: 1;
 
   color: @text;
@@ -176,31 +215,16 @@ nav > a:focus input {
   &:focus {
     background: mix( #000, @bg, ( @opacity * 100 ) );
   }
-
 }
 
-.tools > a.emphasize {
+.tools > .emphasize {
   font-weight: normal !important;
   font-style: italic;
 }
 
-.tools > a.strong {
+.tools > .strong {
   font-weight: bold;
   font-style: normal !important;
-}
-
-.tools > a.remove {
-
-} 
-
-/* clipboard */
-
-textarea {
-  position: fixed;
-  z-index: 9999;
-
-  background: #eee;
-  font-size: 25%;
 }
 
 /* modal */
@@ -234,8 +258,4 @@ textarea {
 ::selection {
   color: @text;
   background: @color;
-}
-
-a::selection {
-  background: none !important;
 }

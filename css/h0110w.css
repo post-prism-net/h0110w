@@ -13,7 +13,7 @@ body {
 }
 body {
   font-family: 'Source Code Pro', Arial, sans-serif;
-  font-size: 240%;
+  font-size: 120%;
   font-weight: 300;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
@@ -24,22 +24,25 @@ body {
   color: #000000;
   background: #bdc3c3;
 }
+@media only screen and ( max-width: 48em ) {
+  body {
+    font-size: 90%;
+  }
+}
 * {
   outline: 0;
 }
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
   margin: 0;
   font-size: 1em;
 }
 h1 {
   float: left;
   padding: 1em;
-  font-size: 0.5em;
+  font-size: 1em;
   font-weight: 300;
   line-height: 1;
 }
@@ -85,7 +88,7 @@ nav > a {
   float: right;
   margin: 0;
   padding: 1em;
-  font-size: 0.5em;
+  font-size: 1em;
   line-height: 1;
   color: #000000;
   text-decoration: none;
@@ -120,6 +123,34 @@ nav > a:focus input {
   padding-left: 0.5em;
   padding-right: 0.5em;
 }
+@media only screen and ( max-width: 48em ) {
+  nav > a span {
+    position: absolute;
+    left: 0;
+    top: -6em;
+    right: 0;
+    z-index: 0;
+    display: block;
+    margin: 0;
+    padding: 1em 1em 1em 2em;
+    background: #a1a6a6;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+  nav > a:hover span,
+  nav > a:active span,
+  nav > a:focus span {
+    top: 3em;
+  }
+  nav > a span input,
+  nav > a:hover input,
+  nav > a:active input,
+  nav > a:focus input {
+    width: 100%;
+    margin: 0 -1em;
+    padding: 0.5em;
+  }
+}
 .content {
   position: fixed;
   left: 0;
@@ -127,6 +158,7 @@ nav > a:focus input {
   right: 0;
   bottom: 0;
   padding: 1em;
+  font-size: 2em;
   overflow: auto;
 }
 .tools {
@@ -149,7 +181,6 @@ nav > a:focus input {
   height: 1em;
   margin: 0;
   padding: 1em 0;
-  font-size: 0.5em;
   line-height: 1;
   color: #000000;
   text-align: center;
@@ -162,20 +193,13 @@ nav > a:focus input {
 .tools > a:focus {
   background: #a1a6a6;
 }
-.tools > a.emphasize {
+.tools > .emphasize {
   font-weight: normal !important;
   font-style: italic;
 }
-.tools > a.strong {
+.tools > .strong {
   font-weight: bold;
   font-style: normal !important;
-}
-/* clipboard */
-textarea {
-  position: fixed;
-  z-index: 9999;
-  background: #eee;
-  font-size: 25%;
 }
 /* modal */
 .modal {
@@ -204,10 +228,4 @@ textarea {
 ::selection {
   color: #000000;
   background: #2fe6ed;
-}
-a::-moz-selection {
-  background: none !important;
-}
-a::selection {
-  background: none !important;
 }

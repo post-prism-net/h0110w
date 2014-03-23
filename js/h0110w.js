@@ -8,7 +8,7 @@ var h0110w = ( function() {
    */
   var config = new Array();
 
-  config['debug'] = true;
+  config['debug'] = false;
   config['default_text'] = '<strong>h0110w</strong><br><br>transient publishing.';
 
   /**
@@ -24,9 +24,7 @@ var h0110w = ( function() {
     content.init();
     url.init(); 
 
-
     $( '.content' ).focus();
-
   }
 
   /**
@@ -56,7 +54,6 @@ var h0110w = ( function() {
 
   var computeRatio = function( html, base64 ) {
     var ratio = parseInt( base64.length / html.length * 100 );
-
     return ratio; 
   }
 
@@ -73,11 +70,7 @@ var h0110w = ( function() {
     var init = function() {
       debuglog( 'url.init()' );
 
-
-
       baseURL = window.location.href.replace( window.location.hash, '' );
-      debuglog( 'baseURL: ' + baseURL );
-
       var hash = decodeURIComponent( location.href.replace( baseURL, '' ) );
 
       /**
@@ -104,8 +97,6 @@ var h0110w = ( function() {
      * @param   {string}   hash   base64 encoded LZ compressed string
      */
     var update = function( hash ) {
-      // debuglog( 'url.update( ' + hash + ' )' );
-
       history.replaceState( 0, document.title, baseURL + '#/' + hash );
     }
 
@@ -157,20 +148,16 @@ var h0110w = ( function() {
       } );
 
       /**
-       * Faked onSelect event
+       * Poor man's onSelect event
        */
       el_content.on( 'mouseup touchend', function() {
-        debuglog( 'on.mouseup()' );
-
         if( getSelection() != '' ) {
-          debuglog( 'on.select()' );
+          debuglog( 'event:select' );
           tools.show();
         } else {
           tools.hide();
         }
-
       } );
-
     }
 
     /**
@@ -197,13 +184,11 @@ var h0110w = ( function() {
      * Event: content changed
      */
     var onTyping = function() {
-
         var html = el_content.html();
         var lz = encode( html );
 
         url.update( lz );
         nav.update( url.getBaseURL() + '#/' + lz );
-
     }
 
     /**
@@ -212,7 +197,6 @@ var h0110w = ( function() {
      * @return  {string}  selected text
      */
     var getSelection = function() {
-
       var text = '';
         if( window.getSelection ) {
           text = window.getSelection();
@@ -256,7 +240,6 @@ var h0110w = ( function() {
      */
     var format = function( format ) {
       debuglog( 'content.format( ' + format + ' )' );
-
       document.execCommand( format );
     }
 
@@ -266,8 +249,6 @@ var h0110w = ( function() {
      * @param   {string}  html  HTML content
      */
     var update = function( html ) {
-      // debuglog( 'content.update( ' + html + ')' );
-
       el_content.html( html );
     }
 
@@ -291,7 +272,7 @@ var h0110w = ( function() {
      * Paste raw-text-only from clipboard
      *
      * @param   {object}  el  jquery object 
-     * @param   {obhejt}  e   event object
+     * @param   {object}  e   event object
      */
     var paste = function( el, e ) {
       document.execCommand( 'insertText', false, e.clipboardData.getData( 'text/plain' ) );
@@ -321,13 +302,11 @@ var h0110w = ( function() {
      * bind event handlers to DOM elements
      */  
     var bindEventHandlers = function() {
-
       $( document ).on( 'click', '.tools a', function( e ) {
         e.preventDefault();
         var format = $( this ).attr( 'data-format' );
         content.format( format );
       } );
-
     }
 
     /**
@@ -341,15 +320,14 @@ var h0110w = ( function() {
       var html = $( '<div class="tools" contenteditable="false"></div>' );      
       var links = new Array();
 
+      /* link remove style */
+      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove format">Aa</a>' ) );
+
       /* link strong style */
       links.push( $( '<a href="javascript:void(0)" class="strong" data-format="bold" title="> strong">Aa</a>' ) );
 
       /* link em style */
       links.push( $( '<a href="javascript:void(0)" class="emphasize" data-format="italic" title="> emphasize">Aa</a>' ) );
-      
-      /* link remove style */
-      links.push( $( '<a href="javascript:void(0)" class="remove" data-format="removeFormat" title="remove format">&#x2715;</a>' ) );
-
 
       $.each( links, function() {
         html.append( $( this ) );
@@ -361,11 +339,9 @@ var h0110w = ( function() {
 
     /**
      * show tools
-     *
      */ 
     var show = function() {
       debuglog( 'tools.show()' );
-
       setTimeout( function() {
         el_tools.addClass( 'active' );
       }, 1 );
@@ -373,17 +349,14 @@ var h0110w = ( function() {
 
     /**
      * hide tools
-     *
      */ 
     var hide = function() {
       debuglog( 'tools.hide()' );
-
       el_tools.removeClass( 'active' );
     }
 
     /**
      * destroy tools
-     *
      */ 
     var destroy = function() {
       init();
@@ -459,8 +432,6 @@ var h0110w = ( function() {
      * @param   {string}  url   current URL  
      */
     var update = function( url ) {
-      // debuglog( 'nav.update( ' + url + ' )' );
-
       el_nav.find( '.share input' )
         .attr( 'value', url );
     }
@@ -476,11 +447,11 @@ var h0110w = ( function() {
   /**
    * Logging debug infos to console
    * 
-   * @param   {string}  l   log message 
+   * @param   {string}  message   log message 
    */
-  var debuglog = function( l ) {
+  var debuglog = function( message ) {
     if( ( config['debug'] ) && typeof console != 'undefined' ) {
-      console.log( l );
+      console.log( message );
     }
   }
 
@@ -488,6 +459,7 @@ var h0110w = ( function() {
     init: function() { init(); },
     clipboard: clipboard
   }
+
 } )()
 
 $( document ).ready( function() {
