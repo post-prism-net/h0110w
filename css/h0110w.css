@@ -1,9 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400,500,600 );
-/**
-  * Global styles
-  *
-  *
-  */
 html,
 body {
   height: 100%;
@@ -41,6 +36,7 @@ h4 {
 }
 h1 {
   float: left;
+  margin: 0 0 0 1.1em;
   padding: 1em;
   font-size: 1em;
   font-weight: 300;
@@ -73,7 +69,7 @@ input[type='reset']:focus,
 input[type='button']:focus,
 button:focus,
 .button:focus {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 nav {
   position: fixed;
@@ -82,7 +78,7 @@ nav {
   top: 0;
   z-index: 11;
   background: #bdc3c3;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 nav > a {
   float: right;
@@ -92,14 +88,14 @@ nav > a {
   line-height: 1;
   color: #000000;
   text-decoration: none;
-  border-left: 1px solid rgba(0, 0, 0, 0.15);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
   white-space: nowrap;
 }
 nav > a:hover,
 nav > a:active,
 nav > a:focus {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 nav > a span input {
   height: 1em;
@@ -133,9 +129,9 @@ nav > a:focus input {
     display: block;
     margin: 0;
     padding: 1em 1em 1em 2em;
-    background: #a1a6a6;
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    background: #979c9c;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
   nav > a:hover span,
   nav > a:active span,
@@ -186,12 +182,12 @@ nav > a:focus input {
   text-align: center;
   text-decoration: none;
   background: #bdc3c3;
-  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 .tools > a:hover,
 .tools > a:active,
 .tools > a:focus {
-  background: #a1a6a6;
+  background: #979c9c;
 }
 .tools > .emphasize {
   font-weight: normal !important;
