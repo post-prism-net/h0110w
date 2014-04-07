@@ -8,8 +8,8 @@ var h0110w = ( function() {
    */
   var config = new Array();
 
-  config['debug'] = false;
-  config['default_text'] = '<strong>h0110w</strong><br><br>transient publishing.';
+  config['debug'] = true;
+  config['default_text'] = '<em>transient</em> publishing.';
 
   /**
    * Init h0110w
@@ -252,12 +252,24 @@ var h0110w = ( function() {
       el_content.html( html );
     }
 
+    /**
+     * Get excerpt of content
+     *
+     * @return   {string}  excerpt 
+     */
+    var getExcerpt = function() {
+      var text = el_content.text().substr( 0, 140 );
+
+      return text;
+    }
+
     return {
       init:         function() { init(); },
       getSelection: function() { getSelection(); },
       focusEnd:     function() { focusEnd(); },
       format:       function( f ) { format( f ) },
-      update:       function( html ) { update( html ); }
+      update:       function( html ) { update( html ); },
+      getExcerpt:   function() { return getExcerpt() }
     }
 
   } )();
@@ -413,7 +425,7 @@ var h0110w = ( function() {
     var build = function() {
       debuglog( 'nav.build()' );
 
-      var html = $( '<nav><h1>h0110w</h1></nav>' );
+      var html = $( '<nav><h1><a href="http://post-prism.net" title="learn more about h0110w.">h0110w</a></h1></nav>' );
 
       debuglog( 'url.getBaseURL: ' + url.getBaseURL() );
 
