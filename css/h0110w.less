@@ -199,18 +199,21 @@ nav > a:focus input {
 }
 
 .tools {
-  position: fixed;
-  left: 0; 
-  top: 0;
-  z-index: 13; // lucky number ;)
+  position: relative;
+  left: -3px; 
+  // top: 0;
+  // z-index: 13; // lucky number ;)
 
-  margin: 0 0 0 -10em;
+  float: left;
+
+  margin: 0 0 0 -9em;
   padding: 0;
 
   transition: all 250ms ease;
 }
 
 .tools.active {
+  left: 0;
   margin-left: 0;
 }
 

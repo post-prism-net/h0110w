@@ -17,7 +17,7 @@ body {
   font-feature-settings: 'liga', 'dlig', 'kern';
   text-size-adjust: 100%;
   color: #000000;
-  background: #bdc3c3;
+  background: #d2d2cd;
 }
 @media only screen and ( max-width: 48em ) {
   body {
@@ -84,7 +84,7 @@ nav {
   left: 0;
   top: 0;
   z-index: 11;
-  background: #bdc3c3;
+  background: #d2d2cd;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 nav > a {
@@ -113,7 +113,7 @@ nav > a span input {
   font-size: inherit;
   font-weight: inherit;
   line-height: 1;
-  background: #bdc3c3;
+  background: #d2d2cd;
   border: none;
   -webkit-transition: all 250ms ease;
   transition: all 250ms ease;
@@ -136,7 +136,7 @@ nav > a:focus input {
     display: block;
     margin: 0;
     padding: 1em 1em 1em 2em;
-    background: #979c9c;
+    background: #a8a8a4;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
@@ -165,16 +165,16 @@ nav > a:focus input {
   overflow: auto;
 }
 .tools {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 13;
-  margin: 0 0 0 -10em;
+  position: relative;
+  left: -3px;
+  float: left;
+  margin: 0 0 0 -9em;
   padding: 0;
   -webkit-transition: all 250ms ease;
   transition: all 250ms ease;
 }
 .tools.active {
+  left: 0;
   margin-left: 0;
 }
 .tools > a {
@@ -188,13 +188,13 @@ nav > a:focus input {
   color: #000000;
   text-align: center;
   text-decoration: none;
-  background: #bdc3c3;
+  background: #d2d2cd;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 .tools > a:hover,
 .tools > a:active,
 .tools > a:focus {
-  background: #979c9c;
+  background: #a8a8a4;
 }
 .tools > .emphasize {
   font-weight: normal !important;

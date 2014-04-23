@@ -19,8 +19,8 @@ var h0110w = ( function() {
 
     $( 'html' ).addClass( 'js' );
 
-    tools.init();
     nav.init(); 
+    tools.init();
     content.init();
     url.init(); 
 
@@ -344,7 +344,7 @@ var h0110w = ( function() {
       $.each( links, function() {
         html.append( $( this ) );
       });
-      html.prependTo( $( 'body' ) );
+      html.prependTo( $( 'nav' ) );
 
       return html;
     }
