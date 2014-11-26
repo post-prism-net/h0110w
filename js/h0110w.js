@@ -24,7 +24,7 @@ var h0110w = ( function() {
     content.init();
     url.init(); 
 
-    $( '.content' ).focus();
+    // $( '.content' ).focus();
   }
 
   /**
