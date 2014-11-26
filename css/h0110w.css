@@ -12,9 +12,9 @@ body {
   font-weight: 300;
   line-height: 1.4;
   text-rendering: optimizeLegibility;
-  -webkit-font-feature-settings: 'liga', 'dlig', 'kern';
-  -moz-font-feature-settings: 'liga', 'dlig', 'kern';
-  font-feature-settings: 'liga', 'dlig', 'kern';
+  -webkit-font-feature-settings: 'liga', 'dlig';
+  -moz-font-feature-settings: 'liga', 'dlig';
+  font-feature-settings: 'liga', 'dlig';
   text-size-adjust: 100%;
   color: #000000;
   background: #d2d2cd;
