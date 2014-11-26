@@ -11,6 +11,11 @@ var h0110w = ( function() {
   config['debug'] = true;
   config['default_text'] = '<em>transient</em> publishing.';
 
+  // mute debulog on production site
+  if( location.hostname.indexOf( 'local' ) < 0 ) {
+      globals.debug = false;
+  }
+
   /**
    * Init h0110w
    */
@@ -23,8 +28,6 @@ var h0110w = ( function() {
     tools.init();
     content.init();
     url.init(); 
-
-    // $( '.content' ).focus();
   }
 
   /**
